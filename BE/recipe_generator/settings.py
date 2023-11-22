@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 import environ
+from datetime import timedelta
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -33,17 +34,30 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    # 기존 설치 앱
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # 계정 인증 관련 앱
+    'rest_framework',
+    'rest_framework.authtoken',
+    'dj_rest_auth',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'dj_rest_auth.registration',
+    'corsheaders',
+    # 프로젝트 앱
     'accounts',
     'recipe',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -127,3 +141,34 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 OPENAI_API_KEY = env('OPENAI_API_KEY')
+
+AUTH_USER_MODEL = 'accounts.CustomUser'
+
+# dj-rest-auth
+REST_USE_JWT = True  # JWT 사용 여부
+JWT_AUTH_COOKIE = 'my-app-auth'  # 호출할 Cookie Key 값
+JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'  # Refresh Token Cookie Key 값
+
+# django-allauth
+SITE_ID = 1  # 해당 도메인 id
+ACCOUNT_UNIQUE_EMAIL = True  # User email unique 사용 여부
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None  # 사용자 이름 필드 지정
+ACCOUNT_USERNAME_REQUIRED = False  # User username 필수 여부
+ACCOUNT_EMAIL_REQUIRED = True  # User email 필수 여부
+ACCOUNT_AUTHENTICATION_METHOD = 'email'  # 로그인 인증 수단
+ACCOUNT_EMAIL_VERIFICATION = 'none'  # email 인증 필수 여부
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),  # AccessToken 유효 기간 설정
+    # RefreshToken 유효 기간 설정
+    'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+}
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
