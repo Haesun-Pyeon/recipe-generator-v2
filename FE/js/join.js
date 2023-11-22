@@ -1,5 +1,6 @@
 import { backend } from "./url.js";
 import { frontend } from "./url.js";
+console.log('join.js 연결');
 
 const $join = document.querySelector('#join');
 $join.addEventListener('click', async function (e) {

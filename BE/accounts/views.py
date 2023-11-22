@@ -11,7 +11,7 @@ from django.http import HttpResponse
 def userinfo(request):
     # request.user는 인증된 사용자의 정보를 담고 있습니다.
     print(request.data)
-    content = {'message': '님 어서오세요!', 'user': str(request.user)}
+    content = {'message': f"반갑습니다, {request.user.email}님!"}
     return Response(content)
 
 

@@ -1,5 +1,6 @@
 import { backend } from "./url.js";
 import { frontend } from "./url.js";
+console.log('login.js 연결');
 
 const $login = document.querySelector('#login');
 $login.addEventListener('click', async function(e) {

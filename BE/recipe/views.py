@@ -3,12 +3,12 @@ from django.shortcuts import render
 
 
 def recipe_input(request):
-    return render(request, 'input.html')
+    pass
 
 
 def recipe_detail(request):
-    return render(request, 'detail.html')
+    pass
 
 
 def recipe_list(request):
-    return render(request, 'list.html')
+    pass
