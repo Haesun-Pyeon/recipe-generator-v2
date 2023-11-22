@@ -14,28 +14,20 @@ $login.addEventListener('click', async function(e) {
         headers: {
             'Content-type' : 'application/json',
         },
+        credentials: 'include',
         method:'POST',
-        body:JSON.stringify(loginData),
+        body: JSON.stringify(loginData),
     })
     
     if(!response.ok) {
         const errorData = await response.json();
-        alert(errorData.detail || '로그인에 실패했습니다!');
-        return
+        alert(errorData.email || '이메일 또는 패스워드가 틀렸습니다.');
+        return window.location.reload(); 
     }
 
     const res = await response.json();
-    console.log("response:", res.message)
+    console.log("response: ", res);
+    localStorage.setItem('access_token', res.access_token);
 
-    // const access_token = res.token.access
-    // localStorage.setItem('access_token', access_token)
-
-    // const base64Url = access_token.split('.')[1];
-    // const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    // const jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
-    //     return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-    // }).join(''));
-
-    // localStorage.setItem("payload", jsonPayload);
-
+    window.location.href = frontend;
 });

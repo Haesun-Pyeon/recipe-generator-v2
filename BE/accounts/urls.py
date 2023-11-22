@@ -4,6 +4,6 @@ from . import views
 urlpatterns = [
     path('join/', include("dj_rest_auth.registration.urls")),
     path("", include("dj_rest_auth.urls")),
-    path('test/', views.example_view, name='test'),
+    path('userinfo/', views.userinfo, name='userinfo'),
     path('mypage/', views.MyPageView.as_view(), name='mypage'),
 ]
