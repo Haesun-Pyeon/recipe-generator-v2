@@ -1,14 +1,18 @@
-# recipe.views.py
+# recipe/views.py
 from django.shortcuts import render
+from .models import Recipe
+from .serializers import RecipeSerializer
+from rest_framework.viewsets import ModelViewSet
+from rest_framework.permissions import IsAuthenticated
+from .permissions import CustomPermission
 
 
-def recipe_input(request):
-    pass
+class RecipeViewSet(ModelViewSet):
+    queryset = Recipe.objects.all()
+    serializer_class = RecipeSerializer
+    permission_classes = [CustomPermission]
 
-
-def recipe_detail(request):
-    pass
-
-
-def recipe_list(request):
-    pass
+    def get_queryset(self):
+        qs = super().get_queryset()
+        qs = qs.filter(user=self.request.user)
+        return qs
