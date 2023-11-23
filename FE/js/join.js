@@ -1,5 +1,4 @@
-import { backend } from "./url.js";
-import { frontend } from "./url.js";
+import { backend, frontend } from "./url.js";
 console.log('join.js 연결');
 
 const $join = document.querySelector('#join');
@@ -28,8 +27,9 @@ $join.addEventListener('click', async function (e) {
     }
 
     const res = await response.json();
-    console.log("response: ", res)
-    localStorage.setItem('access_token', res.access_token)
+    console.log("response: ", res);
+    localStorage.setItem('access', res.access_token);
+    localStorage.setItem('refresh', res.refresh_token);
 
-    window.location.href = frontend;
+    window.location.replace(frontend);
 });

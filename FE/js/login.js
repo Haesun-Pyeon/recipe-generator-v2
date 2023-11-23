@@ -1,5 +1,4 @@
-import { backend } from "./url.js";
-import { frontend } from "./url.js";
+import { backend, frontend } from "./url.js";
 console.log('login.js 연결');
 
 const $login = document.querySelector('#login');
@@ -28,7 +27,8 @@ $login.addEventListener('click', async function(e) {
 
     const res = await response.json();
     console.log("response: ", res);
-    localStorage.setItem('access_token', res.access_token);
-
-    window.location.href = frontend;
+    localStorage.setItem('access', res.access_token);
+    localStorage.setItem('refresh', res.refresh_token);
+    
+    window.location.replace(frontend);
 });

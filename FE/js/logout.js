@@ -1,9 +1,9 @@
-import { backend } from "./url.js";
-import { frontend } from "./url.js";
+import { backend, frontend } from "./url.js";
+import { getToken } from "./token.js";
 console.log('logout.js 연결');
 
+const token = await getToken();
 const $logout = document.querySelector('#logout');
-const token = localStorage.getItem('access_token')
 
 if (!token){
     $logout.setAttribute('style', 'display: none;');
@@ -14,7 +14,6 @@ $logout.addEventListener('click', async function (e){
     logout();
 });
 
-// 로그아웃은 굳이 안보내고 로컬스토리지 토큰만 삭제해도 되긴함..
 async function logout() {
     const response = await fetch(backend + "accounts/logout/", {
         headers: {
@@ -23,7 +22,7 @@ async function logout() {
         method: 'POST',
     })
     const res = await response.json();
-    localStorage.removeItem('access_token');
+    localStorage.clear();
     alert(res.detail);
     window.location.href = frontend
 }
