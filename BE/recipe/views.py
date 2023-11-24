@@ -26,8 +26,15 @@ class RecipeViewSet(ModelViewSet):
         return qs
 
     def perform_create(self, serializer):
+        self.perform_logic(serializer, is_create=True)
+
+    def perform_update(self, serializer):
+        self.perform_logic(serializer, is_create=False)
+
+    def perform_logic(self, serializer, is_create):
+        data = self.request.data if is_create else serializer.validated_data
         user = self.request.user
-        data = self.request.data
+
         usage_count = self.update_usage_count(user)
         if usage_count.count > 5:
             return Response({'message': '하루 사용량 5번을 초과했습니다.'}, status=status.HTTP_403_FORBIDDEN)
@@ -38,13 +45,12 @@ class RecipeViewSet(ModelViewSet):
         title, ingredient, recipe = self.process_answer(answer)
         img_url = self.get_unsplash_img(title)
 
-        serializer.validated_data['content'] = content
-        serializer.validated_data['answer'] = answer
-        serializer.validated_data['title'] = title
-        serializer.validated_data['ingredient'] = ingredient
-        serializer.validated_data['recipe'] = recipe
-        serializer.validated_data['img_url'] = img_url
-        serializer.save(user=user)
+        save_idx = ['user', 'content', 'answer',
+                    'title', 'ingredient', 'recipe', 'img_url']
+        save_obj = [user, content, answer, title, ingredient, recipe, img_url]
+        for idx, obj in zip(save_idx, save_obj):
+            serializer.validated_data[idx] = obj
+        serializer.save()
 
     def make_content(self, data):
         ingredients = data.get('input_ingredient')
