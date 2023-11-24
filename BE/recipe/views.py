@@ -9,8 +9,10 @@ from rest_framework.viewsets import ModelViewSet
 from datetime import date
 from openai import OpenAI
 import re
+import requests
 
 client = OpenAI(api_key=settings.OPENAI_API_KEY)
+unsplash_key = settings.UNSPLASH_ACCESS_KEY
 
 
 class RecipeViewSet(ModelViewSet):
@@ -34,12 +36,14 @@ class RecipeViewSet(ModelViewSet):
         gpt_response = self.send_gpt(content)
         answer = gpt_response.choices[0].message.content
         title, ingredient, recipe = self.process_answer(answer)
+        img_url = self.get_unsplash_img(title)
 
         serializer.validated_data['content'] = content
         serializer.validated_data['answer'] = answer
         serializer.validated_data['title'] = title
         serializer.validated_data['ingredient'] = ingredient
         serializer.validated_data['recipe'] = recipe
+        serializer.validated_data['img_url'] = img_url
         serializer.save(user=user)
 
     def make_content(self, data):
@@ -99,3 +103,8 @@ class RecipeViewSet(ModelViewSet):
         recipe = re.sub('\d+. ', '</li><li>', recipe)[5:] + '</li>'
 
         return title.strip(), ingredient.strip(), recipe.strip()
+
+    def get_unsplash_img(self, title):
+        url = f'https://api.unsplash.com/search/photos?query={title}&client_id={unsplash_key}&lang=ko&orientaion=squarish'
+        response = requests.get(url)
+        return response.json()['results'][0]['urls']['regular']

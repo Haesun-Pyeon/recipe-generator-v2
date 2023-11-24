@@ -11,12 +11,13 @@ class Recipe(models.Model):
     gas_stove = models.BooleanField(default=False)
     microwave = models.BooleanField(default=False)
     additional = models.BooleanField(default=True)
-    content = models.TextField(blank=True, null=True)
+    content = models.TextField(blank=True)
 
-    answer = models.TextField(blank=True, null=True)
-    title = models.CharField(max_length=100, blank=True, null=True)
-    ingredient = models.TextField(blank=True, null=True)
-    recipe = models.TextField(blank=True, null=True)
+    answer = models.TextField(blank=True)
+    title = models.CharField(max_length=50, blank=True)
+    ingredient = models.TextField(blank=True)
+    recipe = models.TextField(blank=True)
+    img_url = models.URLField(max_length=400, blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)

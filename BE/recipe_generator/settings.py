@@ -142,6 +142,7 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 OPENAI_API_KEY = env('OPENAI_API_KEY')
+UNSPLASH_ACCESS_KEY = env('UNSPLASH_ACCESS_KEY')
 
 AUTH_USER_MODEL = 'accounts.User'
 
