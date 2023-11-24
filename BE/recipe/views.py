@@ -1,10 +1,9 @@
 # recipe/views.py
 from .models import Recipe, UsageCount
+from .exceptions import UsageExcessException
 from .permissions import CustomPermission
 from .serializers import RecipeSerializer
 from django.conf import settings
-from rest_framework import status
-from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from datetime import date
 from openai import OpenAI
@@ -20,6 +19,21 @@ class RecipeViewSet(ModelViewSet):
     serializer_class = RecipeSerializer
     permission_classes = [CustomPermission]
 
+    def check_usage(func):
+        def wrapper(self, *args, **kwargs):
+            today = date.today()
+            usage_count, created = UsageCount.objects.get_or_create(
+                user=self.request.user)
+            if usage_count.used_date != today:
+                usage_count.count = 0
+                usage_count.used_date = today
+            elif usage_count.count >= 5:
+                raise UsageExcessException()
+            func(self, *args, **kwargs)
+            usage_count.count += 1
+            usage_count.save()
+        return wrapper
+
     def get_queryset(self):
         qs = super().get_queryset()
         qs = qs.filter(user=self.request.user)
@@ -31,28 +45,23 @@ class RecipeViewSet(ModelViewSet):
     def perform_update(self, serializer):
         self.perform_logic(serializer, is_create=False)
 
+    @check_usage
     def perform_logic(self, serializer, is_create):
         data = self.request.data if is_create else serializer.validated_data
         user = self.request.user
 
-        usage_count = self.update_usage_count(user)
-        if usage_count.count > 5:
-            return Response({'message': '하루 사용량 5번을 초과했습니다.'}, status=status.HTTP_403_FORBIDDEN)
-
-        content = self.make_content(data)
-        gpt_response = self.send_gpt(content)
+        content = RecipeViewSet.make_content(data)
+        gpt_response = RecipeViewSet.send_gpt(content)
         answer = gpt_response.choices[0].message.content
-        title, ingredient, recipe = self.process_answer(answer)
-        img_url = self.get_unsplash_img(title)
+        title, ingredient, recipe = RecipeViewSet.process_answer(answer)
+        img_url = RecipeViewSet.get_unsplash_img(title)
 
-        save_idx = ['user', 'content', 'answer',
-                    'title', 'ingredient', 'recipe', 'img_url']
-        save_obj = [user, content, answer, title, ingredient, recipe, img_url]
-        for idx, obj in zip(save_idx, save_obj):
-            serializer.validated_data[idx] = obj
-        serializer.save()
+        serializer.save(user=user, content=content, answer=answer, title=title,
+                        ingredient=ingredient, recipe=recipe, img_url=img_url)
+        return serializer
 
-    def make_content(self, data):
+    @staticmethod
+    def make_content(data):
         ingredients = data.get('input_ingredient')
         oven = data.get('oven')
         air_fryer = data.get('air_fryer')
@@ -74,26 +83,17 @@ class RecipeViewSet(ModelViewSet):
             content += "추가재료는 안들어갔으면 좋겠어. "
         content += "레피시명:, 재료:, 요리방법: 순서로 알려주고 다른 말은 하지 말아줘."
         return content
-    # ex) 감자, 대파, 버섯, 소세지, 밥을/를 이용한 요리의 레시피를 한 가지 알려줘. 가열할 수 있는 기구는 가스레인지, 에어프라이어만 있어. 추가재료는 안들어갔으면 좋겠어. 레피시명:, 재료:, 요리방법: 순서로 알려주고 다른 말은 하지 말아줘.
 
-    def send_gpt(self, content):
+    @staticmethod
+    def send_gpt(content):
         response = client.chat.completions.create(model="gpt-3.5-turbo", messages=[
             {"role": "system", "content": "assistant는 여러가지 요리 레시피에 대해 잘 아는 요리사입니다."},
             {"role": "user", "content": content},
         ],)
         return response
 
-    def update_usage_count(self, user):
-        today = date.today()
-        usage_count, created = UsageCount.objects.get_or_create(user=user)
-        if usage_count.used_date != today:
-            usage_count.count = 0
-        usage_count.count += 1
-        usage_count.used_date = today
-        usage_count.save()
-        return usage_count
-
-    def process_answer(self, answer):
+    @staticmethod
+    def process_answer(answer):
         title, ingredient = answer.split("재료:")
         if ':' in title:
             title = title.split(":")[1]
@@ -110,7 +110,8 @@ class RecipeViewSet(ModelViewSet):
 
         return title.strip(), ingredient.strip(), recipe.strip()
 
-    def get_unsplash_img(self, title):
+    @staticmethod
+    def get_unsplash_img(title):
         url = f'https://api.unsplash.com/search/photos?query={title}&client_id={unsplash_key}&lang=ko&orientaion=squarish'
         response = requests.get(url)
         return response.json()['results'][0]['urls']['regular']
