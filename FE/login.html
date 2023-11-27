@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>오늘의 요리</title>
+    <link rel="stylesheet" href="./css/common.css" />
+    <script src="https://kit.fontawesome.com/67cab5a85c.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <header>
+        <div class="head-box">
+            <h1>
+                <a href="./"><i class="fa-solid fa-utensils"></i> 오늘의 요리</a>
+            </h1>
+            <a href="./recipe.html">추천받기</a>
+            <a href="./list.html">불러오기</a>
+        </div>
+    </header>
+    
+    <main>
+        <!-- 로그인 페이지 -->
+        <div id='main-div'>
+            <form class="account-form">
+                <div class="account-input">
+                    <label for="user-email"><i class="fa-solid fa-envelope"></i> 이메일</label>
+                    <input id="user-email" type="email" name='email' required/>
+                </div>
+                <div class="account-input">
+                    <label for="user-pw"><i class="fa-solid fa-lock"></i> 비밀번호</label>
+                    <input id="user-pw" type="password" name="password" required />
+                </div>        
+                <button type="submit" id='login'>로그인</button>
+            </form>
+        </div>
+    </main>
+    <script type="module" src="./js/login.js"></script>
+</body>
+</html>

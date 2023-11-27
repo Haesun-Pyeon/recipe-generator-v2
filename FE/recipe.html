@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>오늘의 요리</title>
+    <link rel="stylesheet" href="./css/common.css" />
+    <script src="https://kit.fontawesome.com/67cab5a85c.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <header>
+        <div class="head-box">
+            <h1>
+                <a href="./"><i class="fa-solid fa-utensils"></i> 오늘의 요리</a>
+            </h1>
+            <a href="./recipe.html">추천받기</a>
+            <a href="./list.html">불러오기</a>
+            <a href='#' id='logout'>로그아웃</a>
+        </div>
+    </header>
+
+    <main>
+        <!-- 식재료 입력받는 페이지 -->
+        <div id="loading">
+            <i class="fa-solid fa-kitchen-set fa-bounce"></i>
+            <p>잠시만 기다려주세요</p>
+        </div>
+        <div id="main-div">
+            <p class="desc"><span>현재 가지고 있는 식재료를 입력하면 </span><span>만들 수 있는 레시피를 추천해드립니다.</span></p>
+            <form class="main-form">
+            <div class="flex-input">
+                <label for="ingredient" class="input-desc"><i class="fa-solid fa-bowl-food"></i> 식재료 입력하기</label>
+                <textarea id="ingredient" placeholder="콤마로 구분하여 입력해주세요."></textarea>
+            </div>
+
+            <div class="flex-input">
+                <p class="input-desc"><i class="fa-solid fa-fire-burner"></i> 사용 가능한 조리기구</p>
+                <ul id="checkboxes">
+                <li><input type="checkbox" name="tools" id="method1" value="오븐" /><label for="method1">오븐</label></li>
+                <li><input type="checkbox" name="tools" id="method2" value="에어프라이어" /><label for="method2">에어프라이어</label></li>
+                <li><input type="checkbox" name="tools" id="method3" value="가스레인지" /><label for="method3">가스레인지</label></li>
+                <li><input type="checkbox" name="tools" id="method4" value="전자레인지" /><label for="method4">전자레인지</label></li>
+                </ul>
+            </div>
+            <div class="flex-input">
+                <p class="input-desc"><i class="fa-solid fa-plate-wheat"></i> 재료를 더 넣어도 될까요?</p>
+                <ul id="radios">
+                <li><input id="ok" name="add-more" type="radio" value="true" checked /><label for="ok">가능</label></li>
+                <li><input id="no" name="add-more" type="radio" value="false" /><label for="no">불가능</label></li>
+                </ul>
+            </div>
+            <button type="submit">추천</button>
+            </form>
+        </div>
+        <div id="answer"></div>
+    </main>
+    <script type="module" src="./js/logout.js"></script>
+</body>
+</html>

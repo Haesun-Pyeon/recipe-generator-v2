@@ -1,0 +1,353 @@
+/* 초기화 */
+* {
+  margin: 0;
+  padding: 0;
+}
+button:enabled {
+  cursor: pointer;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* 폰트설정 */
+@font-face {
+  font-family: "BMJUA";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMJUA.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+body {
+  font-family: "BMJUA";
+  font-size: 1.4rem;
+}
+
+/* 헤더파트 */
+header {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: white;
+  border-bottom: 2px solid #e25e3e;
+}
+.head-box {
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  color: #e25e3e;
+}
+header h1 {
+  flex-grow: 1;
+  font-size: 2.5rem;
+}
+
+/* 커버창 */
+.cover {
+  margin: auto;
+  padding-top: 40vh;
+  width: 710px;
+}
+.title {
+  font-size: 125px;
+  text-align: center;
+}
+.cover-btn {
+  margin-top: 7vh;
+  width: 49%;
+  height: 7vh;
+}
+.bg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-image: url(../img/background.jpg);
+  background-position: center center;
+  background-size: cover;
+  opacity: 0.5;
+  z-index: -1;
+}
+#message {
+  text-align: center;
+  margin-top: 15px;
+}
+
+/* 메인파트 */
+#main-div {
+  padding-top: 125px;
+  margin: auto;
+  width: 95vw;
+}
+
+/* 로그인, 회원가입 폼 */
+.account-form{
+  display: flex;
+  flex-direction: column;
+  gap:6vh;
+  width: 60vw;
+  margin: auto;
+  padding-top: 100px;
+}
+.account-input{
+  display: flex;
+  align-items: center;
+}
+.account-input label{
+  width: 200px;
+  color: #e25e3e;
+}
+.account-input input{
+  flex-grow: 1;
+  height: 50px;
+  font-size: 1.3rem;
+  border: 1px solid #e25e3e;
+  border-radius: 5px;
+  font-family: inherit;
+  padding: 3px;
+}
+
+/* 식재료 폼 입력화면 */
+.main-form {
+  width: 50vw;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6vh;
+}
+.flex-input {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 3vh;
+  width: inherit;
+}
+.input-desc {
+  width: inherit;
+  color: #e25e3e;
+}
+.desc {
+  text-align: center;
+  margin: auto;
+  padding-bottom: 30px;
+  width: 85vw;
+  color: #e25e3e;
+}
+.flex-input textarea {
+  flex-grow: 1;
+  resize: none;
+  width: inherit;
+  height: 80px;
+  font-size: 1.3rem;
+  border: 1px solid #e25e3e;
+  border-radius: 5px;
+  font-family: inherit;
+  padding: 3px;
+}
+button {
+  background-color: #e25e3e;
+  border: 0;
+  border-radius: 5px;
+  height: 45px;
+  color: white;
+  transition: background-color 0.3s ease;
+  font: inherit;
+}
+button:hover {
+  background-color: #ff9b50;
+}
+button[type="submit"] {
+  margin-bottom: 20px;
+}
+.flex-input ul {
+  list-style: none;
+  display: flex;
+  gap: 2vw;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+.flex-input li {
+  width: 20vw;
+}
+input[type="checkbox"],
+input[type="radio"] {
+  width: 1.4rem;
+  height: 1.4rem;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+label {
+  vertical-align: middle;
+}
+
+/* 레시피 화면 */
+#answer {
+  /* 처음엔 안보이다가 결과창 보여줄 때 flex로 보여짐 */
+  display: none;
+  padding-top: 125px;
+  width: 95vw;
+  margin: auto auto 20px;
+}
+#answer img {
+  margin: auto;
+  width: 43vw;
+  border-radius: 5px;
+}
+.contents {
+  margin: 0 3vw 5vh;
+  width: 42vw;
+  display: flex;
+  flex-direction: column;
+  gap: 5vh;
+  justify-content: space-between;
+  line-height: 1.7;
+}
+.buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 3vh;
+  width: 10vw;
+  margin: 0 auto 5vh;
+  justify-content: end;
+}
+.contents h2 {
+  margin-bottom: 3vh;
+  color: #e25e3e;
+}
+.contents h3 {
+  margin-bottom: 2vh;
+  color: #e25e3e;
+}
+#answer ol {
+  margin-left: 2vw;
+}
+li::marker {
+  color: #e25e3e;
+}
+
+/* 불러오기 페이지 */
+.save-table {
+  border-collapse: collapse;
+  border-top: 2px solid #e25e3e;
+  border-bottom: 1px solid #e25e3e;
+  text-align: center;
+  color: #e25e3e;
+  width: 100%;
+}
+.save-table th {
+  background-color: #e25e3e;
+  color: white;
+  padding: 1vh;
+}
+.save-table td {
+  padding: 2vh 1vw;
+}
+.save-table th,
+.save-table td {
+  border-top: 1px solid #e25e3e;
+  border-bottom: 1px solid #e25e3e;
+}
+.click-tr {
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.click-tr:hover {
+  background-color: #ff9b50;
+  color: white;
+}
+.tal {
+  text-align: left;
+}
+.delete-all {
+  margin: 20px 0;
+  padding: 10px;
+  height: auto;
+}
+
+/* 로딩중 */
+#loading {
+  color: #e25e3e;
+  margin: auto;
+  padding-top: 35vh;
+  text-align: center;
+  background-color: white;
+  width: 100vw;
+  height: 65vh;
+  font-size: 2rem;
+  display: none;
+}
+#loading i {
+  font-size: 10rem;
+  padding-bottom: 5vh;
+}
+
+/* 화면너비가 작아질때 (모바일 가로세로, 태블릿 세로) */
+@media screen and (max-width: 768px) {
+  body {
+    font-size: 1.0rem;
+  }
+  header h1 {
+    font-size: 1.5rem;
+  }
+  .cover-btn {
+    width: inherit;
+    font-size: 1.1rem;
+  }
+  .desc span {
+    display: block;
+  }
+  #answer {
+    flex-direction: column;
+  }
+  #answer img {
+    width: 80vw;
+  }
+  .contents {
+    width: 80vw;
+    margin: 3vh auto;
+  }
+  .buttons {
+    width: 80vw;
+  }
+  .flex-input textarea {
+    font-size: 1rem;
+  }
+  .flex-input li {
+    width: 32vw;
+  }
+  .flex-input ul {
+    justify-content: space-between;
+    gap: 3vw;
+  }
+  input[type="checkbox"],
+  input[type="radio"] {
+    width: 1.1rem;
+    height: 1.1rem;
+  }
+  .cover {
+    width: 270px;
+  }
+  .title {
+    font-size: 50px;
+  }
+  /* 로그인, 회원가입 폼 모바일 */
+  .account-form{
+    width: 70vw;
+    padding-top: 30px;
+  }
+  .account-input{
+    align-items: stretch;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .account-input label{
+    font-size: 1.1rem;
+    width: inherit;
+  }
+  .account-input input{
+    height: 30px;
+    font-size: 1rem;
+  }
+}

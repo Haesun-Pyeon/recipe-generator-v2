@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>오늘의 요리</title>
+    <link rel="stylesheet" href="./css/common.css" />
+    <script src="https://kit.fontawesome.com/67cab5a85c.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="bg"></div>
+    <header>
+        <div class="head-box">
+            <h1>
+                <a href="./"><i class="fa-solid fa-utensils"></i> 오늘의 요리</a>
+            </h1>
+            <a href="./recipe.html">추천받기</a>
+            <a href="./list.html">불러오기</a>
+            <a href='#' id='logout'>로그아웃</a>
+        </div>
+    </header>
+    
+    <main>
+        <!-- 처음 들어갔을 때 커버 페이지 -->
+        <div class="cover">
+            <div class="title"><i class="fa-solid fa-utensils"></i> 오늘의 요리</div>
+            <p id="message"></p>
+            <button type='button' class="cover-btn" id='btn1'></button>
+            <button type='button' class="cover-btn" id='btn2'></button>
+        
+        </div>
+    </main>
+    <script type="module" src="./js/index.js"></script>
+    <script type="module" src="./js/logout.js"></script>
+</body>
+</html>

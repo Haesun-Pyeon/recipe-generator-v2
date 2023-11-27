@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>오늘의 요리</title>
+    <link rel="stylesheet" href="./css/common.css" />
+    <script src="https://kit.fontawesome.com/67cab5a85c.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <header>
+        <div class="head-box">
+            <h1>
+                <a href="./"><i class="fa-solid fa-utensils"></i> 오늘의 요리</a>
+            </h1>
+            <a href="./recipe.html">추천받기</a>
+            <a href="./list.html">불러오기</a>
+            <a href='#' id='logout'>로그아웃</a>
+        </div>
+    </header>
+
+    <main>
+        <!-- 불러오기 클릭시 저장된 목록 불러오는 페이지 -->
+        <div id="main-div">
+            <table class="save-table">
+            <thead>
+                <tr>
+                <th></th>
+                <th>입력한 재료</th>
+                <th>레시피 명</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                <!-- 저장된 내용이 없을 때 뜨는 문구 -->
+                <td id="none" colspan="3">저장된 내용이 없습니다.</td>
+                </tr>
+                <tr class='click-tr' onclick="location.href='./detail.html'">
+                    <td>1</td>
+                    <td class='tal'>inputs</td>
+                    <td class='tal'>title</td>
+                </tr>    
+            </tbody>
+            </table>
+            <button type="button" class="delete-all">전체삭제</button>
+        </div>
+        <div id="answer"></div>
+    </main>
+    <script type="module" src="./js/logout.js"></script>
+</body>
+</html>
