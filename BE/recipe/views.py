@@ -1,7 +1,8 @@
 # recipe/views.py
 from .models import Recipe, UsageCount
 from .exceptions import UsageExcessException
-from .permissions import CustomPermission
+from .pagination import RecipePagination
+from .permissions import RecipePermission
 from .serializers import RecipeSerializer
 from django.conf import settings
 from rest_framework.viewsets import ModelViewSet
@@ -10,14 +11,23 @@ from openai import OpenAI
 import re
 import requests
 
-client = OpenAI(api_key=settings.OPENAI_API_KEY)
-unsplash_key = settings.UNSPLASH_ACCESS_KEY
-
 
 class RecipeViewSet(ModelViewSet):
     queryset = Recipe.objects.all()
     serializer_class = RecipeSerializer
-    permission_classes = [CustomPermission]
+    permission_classes = [RecipePermission]
+    pagination_class = RecipePagination
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        qs = qs.filter(user=self.request.user)
+        return qs
+
+    def perform_create(self, serializer):
+        self.perform_logic(serializer, is_create=True)
+
+    def perform_update(self, serializer):
+        self.perform_logic(serializer, is_create=False)
 
     def check_usage(func):
         def wrapper(self, *args, **kwargs):
@@ -34,31 +44,19 @@ class RecipeViewSet(ModelViewSet):
             usage_count.save()
         return wrapper
 
-    def get_queryset(self):
-        qs = super().get_queryset()
-        qs = qs.filter(user=self.request.user)
-        return qs
-
-    def perform_create(self, serializer):
-        self.perform_logic(serializer, is_create=True)
-
-    def perform_update(self, serializer):
-        self.perform_logic(serializer, is_create=False)
-
     @check_usage
     def perform_logic(self, serializer, is_create):
         data = self.request.data if is_create else serializer.validated_data
         user = self.request.user
 
-        content = RecipeViewSet.make_content(data)
-        gpt_response = RecipeViewSet.send_gpt(content)
+        content = self.make_content(data)
+        gpt_response = self.send_gpt(content)
         answer = gpt_response.choices[0].message.content
-        title, ingredient, recipe = RecipeViewSet.process_answer(answer)
-        img_url = RecipeViewSet.get_unsplash_img(title)
+        title, ingredient, recipe = self.process_answer(answer)
+        img_url = self.get_unsplash_img(title)
 
         serializer.save(user=user, content=content, answer=answer, title=title,
                         ingredient=ingredient, recipe=recipe, img_url=img_url)
-        return serializer
 
     @staticmethod
     def make_content(data):
@@ -86,7 +84,8 @@ class RecipeViewSet(ModelViewSet):
 
     @staticmethod
     def send_gpt(content):
-        response = client.chat.completions.create(model="gpt-3.5-turbo", messages=[
+        client = OpenAI(api_key=settings.OPENAI_API_KEY)
+        response = client.chat.completions.create(model="gpt-3.5-turbo", temperature=0.5, messages=[
             {"role": "system", "content": "assistant는 여러가지 요리 레시피에 대해 잘 아는 요리사입니다."},
             {"role": "user", "content": content},
         ],)
@@ -112,6 +111,7 @@ class RecipeViewSet(ModelViewSet):
 
     @staticmethod
     def get_unsplash_img(title):
+        unsplash_key = settings.UNSPLASH_ACCESS_KEY
         url = f'https://api.unsplash.com/search/photos?query={title}&client_id={unsplash_key}&lang=ko&orientaion=squarish'
         response = requests.get(url)
         return response.json()['results'][0]['urls']['regular']

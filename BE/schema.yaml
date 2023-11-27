@@ -139,16 +139,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/RestAuthDetail'
           description: ''
-  /accounts/mypage/:
-    get:
-      operationId: accounts_mypage_retrieve
-      tags:
-      - accounts
-      security:
-      - jwtAuth: []
-      responses:
-        '200':
-          description: No response body
   /accounts/password/change/:
     post:
       operationId: accounts_password_change_create
@@ -389,16 +379,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/UserDetails'
           description: ''
-  /accounts/userinfo/:
-    post:
-      operationId: accounts_userinfo_create
-      tags:
-      - accounts
-      security:
-      - jwtAuth: []
-      responses:
-        '200':
-          description: No response body
   /api/schema/:
     get:
       operationId: api_schema_retrieve
@@ -546,6 +526,19 @@ paths:
   /recipe/:
     get:
       operationId: recipe_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
       tags:
       - recipe
       security:
@@ -555,9 +548,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Recipe'
+                $ref: '#/components/schemas/PaginatedRecipeList'
           description: ''
     post:
       operationId: recipe_create
@@ -712,6 +703,26 @@ components:
           type: string
       required:
       - password
+    PaginatedRecipeList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Recipe'
     PasswordChange:
       type: object
       properties:
@@ -755,8 +766,9 @@ components:
     PatchedRecipe:
       type: object
       properties:
-        user:
+        id:
           type: integer
+          readOnly: true
         input_ingredient:
           type: string
         oven:
@@ -769,6 +781,32 @@ components:
           type: boolean
         additional:
           type: boolean
+        content:
+          type: string
+        answer:
+          type: string
+        title:
+          type: string
+          maxLength: 50
+        ingredient:
+          type: string
+        recipe:
+          type: string
+        img_url:
+          type: string
+          format: uri
+          maxLength: 400
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date
+          readOnly: true
+        user:
+          type: integer
+          readOnly: true
     PatchedUserDetails:
       type: object
       description: User model w/o password
@@ -793,8 +831,9 @@ components:
     Recipe:
       type: object
       properties:
-        user:
+        id:
           type: integer
+          readOnly: true
         input_ingredient:
           type: string
         oven:
@@ -807,8 +846,37 @@ components:
           type: boolean
         additional:
           type: boolean
+        content:
+          type: string
+        answer:
+          type: string
+        title:
+          type: string
+          maxLength: 50
+        ingredient:
+          type: string
+        recipe:
+          type: string
+        img_url:
+          type: string
+          format: uri
+          maxLength: 400
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date
+          readOnly: true
+        user:
+          type: integer
+          readOnly: true
       required:
+      - created_at
+      - id
       - input_ingredient
+      - updated_at
       - user
     Register:
       type: object

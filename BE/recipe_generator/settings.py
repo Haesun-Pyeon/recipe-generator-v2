@@ -174,3 +174,9 @@ REST_FRAMEWORK = {
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Recipe Generator',
+    'DESCRIPTION': '이 API는 사용자가 현재 갖고 있는 식재료들, 현재 사용 가능한 조리기구, 그리고 식재료 추가 가능 여부를 입력받아 ChatGPT를 이용하여 현재 만들 수 있는 레시피를 추천해줍니다.',
+    'VERSION': '2.0.0',
+}

@@ -22,8 +22,11 @@ class Recipe(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
 
+    class Meta:
+        ordering = ['-pk']
+
     def __str__(self):
-        return f"{self.id}: {self.user.email} - {self.title}"
+        return f"{self.id}: {self.user.email} - {self.input_ingredient}"
 
 
 class UsageCount(models.Model):

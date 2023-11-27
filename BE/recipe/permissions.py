@@ -1,7 +1,7 @@
 from rest_framework.permissions import BasePermission
 
 
-class CustomPermission(BasePermission):
+class RecipePermission(BasePermission):
     # /recipe/: 로그인 한 유저들만 추천레시피 목록 조회(GET), 새로 생성(POST) 가능
     def has_permission(self, request, view):
         return request.user.is_authenticated
