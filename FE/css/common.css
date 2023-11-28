@@ -184,8 +184,7 @@ label {
 
 /* 레시피 화면 */
 #answer {
-  /* 처음엔 안보이다가 결과창 보여줄 때 flex로 보여짐 */
-  display: none;
+  display: flex;
   padding-top: 125px;
   width: 95vw;
   margin: auto auto 20px;
@@ -260,10 +259,25 @@ li::marker {
 .tal {
   text-align: left;
 }
+.tar{
+  text-align: right;
+}
 .delete-all {
   margin: 20px 0;
   padding: 10px;
   height: auto;
+}
+.list-bottom{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.fa-xl{
+  color: #e25e3e;
+  cursor: pointer;
+}
+.fa-xl:hover{
+  color: #ff9b50;
 }
 
 /* 로딩중 */
@@ -286,14 +300,16 @@ li::marker {
 /* 화면너비가 작아질때 (모바일 가로세로, 태블릿 세로) */
 @media screen and (max-width: 768px) {
   body {
-    font-size: 1.0rem;
+    font-size: 1.1rem;
   }
   header h1 {
     font-size: 1.5rem;
   }
+  header h1~a{
+    font-size: 1.0rem;
+  }
   .cover-btn {
     width: inherit;
-    font-size: 1.1rem;
   }
   .desc span {
     display: block;
@@ -343,7 +359,6 @@ li::marker {
     gap: 10px;
   }
   .account-input label{
-    font-size: 1.1rem;
     width: inherit;
   }
   .account-input input{

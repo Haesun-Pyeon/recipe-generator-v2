@@ -11,7 +11,8 @@ $join.addEventListener('click', async function (e) {
         "password2" : document.querySelector('input[name="password2"]').value
     }
 
-    const response = await fetch(backend + "accounts/join/", {
+    // 유저 데이터 생성 POST요청
+    const response = await fetch(`${backend}accounts/join/`, {
         headers: {
             'Content-type' : 'application/json',
         },
@@ -20,16 +21,18 @@ $join.addEventListener('click', async function (e) {
         body: JSON.stringify(joinData),
     })
 
+    // 실패 시 실패이유를 띄워주고 새로고침
     if(!response.ok) {
         const errorData = await response.json();
         alert(errorData.email || errorData.password1 || '이메일 또는 패스워드가 올바르지 않습니다.');
-        return window.location.reload(); 
+        window.location.reload(); 
     }
 
+    // 성공 시 로컬스토리지에 access token, refresh token 저장
     const res = await response.json();
-    console.log("response: ", res);
     localStorage.setItem('access', res.access_token);
     localStorage.setItem('refresh', res.refresh_token);
 
+    alert('회원가입이 완료되었습니다.');
     window.location.replace(frontend);
 });

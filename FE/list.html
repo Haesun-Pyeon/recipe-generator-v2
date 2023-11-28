@@ -29,24 +29,27 @@
                 <th></th>
                 <th>입력한 재료</th>
                 <th>레시피 명</th>
+                <th>날짜</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                 <!-- 저장된 내용이 없을 때 뜨는 문구 -->
-                <td id="none" colspan="3">저장된 내용이 없습니다.</td>
+                <td id="none" colspan="4">저장된 내용이 없습니다.</td>
                 </tr>
-                <tr class='click-tr' onclick="location.href='./detail.html'">
-                    <td>1</td>
-                    <td class='tal'>inputs</td>
-                    <td class='tal'>title</td>
-                </tr>    
             </tbody>
             </table>
-            <button type="button" class="delete-all">전체삭제</button>
+
+            <div class='list-bottom'>
+                <button type="button" class="delete-all">전체삭제</button>
+                <div>
+                    <i class="fa-solid fa-angle-left fa-xl"></i>
+                    <i class="fa-solid fa-angle-right fa-xl"></i>
+                </div>
+            </div>
         </div>
-        <div id="answer"></div>
     </main>
     <script type="module" src="./js/logout.js"></script>
+    <script type="module" src="./js/list.js"></script>
 </body>
 </html>

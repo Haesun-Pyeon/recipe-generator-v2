@@ -9,28 +9,29 @@ const $message = document.querySelector('#message');
 
 if (token){
     await showLogin();
-    $btn1.innerHTML = '추천받기';
-    $btn1.setAttribute('onclick', "location.href='"+frontend+"./recipe.html'");
+    $btn1.innerHTML = '추천받기'; 
+    $btn1.setAttribute('onclick', `location.href='${frontend}recipe.html'`);
     $btn2.innerHTML = '불러오기';
-    $btn2.setAttribute('onclick', "location.href='"+frontend+"./list.html'");
+    $btn2.setAttribute('onclick', `location.href='${frontend}list.html'`);
     // 로그인 O -> 로그아웃, (마이페이지), 추천받기, 불러오기 버튼
 } else {
     $btn1.innerHTML = '로그인';
-    $btn1.setAttribute('onclick', "location.href='"+frontend+"./login.html'");
+    $btn1.setAttribute('onclick', `location.href='${frontend}login.html'`);
     $btn2.innerHTML = '회원가입';
-    $btn2.setAttribute('onclick', "location.href='"+frontend+"./join.html'");
+    $btn2.setAttribute('onclick', `location.href='${frontend}join.html'`);
     $message.innerHTML = '로그인을 해야 서비스 이용이 가능합니다!';
     // 로그인 X -> 로그인, 회원가입 버튼
 }
 
 async function showLogin() {
-    const response = await fetch(backend + 'accounts/user/', {
-        method: 'GET',
+    // 토큰으로 유저 정보 GET 요청
+    const response = await fetch(`${backend}accounts/user/`, {
         headers: {
-            Authorization: `Bearer ${token}`,
+            'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
         },
         credentials: 'include',
+        method: 'GET',
     })
 
     const res = await response.json();

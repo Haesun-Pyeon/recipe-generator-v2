@@ -5,6 +5,9 @@ from .pagination import RecipePagination
 from .permissions import RecipePermission
 from .serializers import RecipeSerializer
 from django.conf import settings
+from rest_framework import status
+from rest_framework.decorators import action
+from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from datetime import date
 from openai import OpenAI
@@ -28,6 +31,12 @@ class RecipeViewSet(ModelViewSet):
 
     def perform_update(self, serializer):
         self.perform_logic(serializer, is_create=False)
+
+    @action(detail=False, methods=['delete'])
+    def all(self, request):
+        queryset = self.get_queryset()
+        queryset.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
     def check_usage(func):
         def wrapper(self, *args, **kwargs):
