@@ -5,11 +5,6 @@ console.log('logout.js 연결');
 const token = await getToken();
 const $logout = document.querySelector('#logout');
 
-// 로그인을 안 했을때 -> 로그아웃 버튼 안보임
-if (!token){
-    $logout.setAttribute('style', 'display: none;');
-}
-
 $logout.addEventListener('click', async function (e){
     e.preventDefault();
     logout();
@@ -19,6 +14,7 @@ $logout.addEventListener('click', async function (e){
 async function logout() {
     const response = await fetch(`${backend}accounts/logout/`, {
         headers: {
+            'Authorization': `Bearer ${token}`,
             'Content-type' : 'application/json',
         },
         method: 'POST',
