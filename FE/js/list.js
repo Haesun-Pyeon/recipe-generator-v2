@@ -68,7 +68,6 @@ if (token){
     
             const date = new Date(res.results[i].created_at);
             const $date = document.createElement('td');
-            $date.setAttribute('class', 'tar');
             $date.innerText = `${date.getMonth()}/${date.getDate()}`;
     
             $tbody.appendChild($tr);
