@@ -32,12 +32,12 @@ if (token){
     const $left = document.querySelector('.fa-angle-left');
     const $right = document.querySelector('.fa-angle-right');
     if (res.previous){
-        $left.setAttribute('onclick', `location.href='${frontend}list.html?page=${page-1}'`)
+        $left.setAttribute('onclick', `location.href='${frontend}list/?page=${page-1}'`)
     } else {
         $left.setAttribute('onclick', "alert('이전 페이지가 없습니다.');")
     }
     if (res.next){
-        $right.setAttribute('onclick', `location.href='${frontend}list.html?page=${page+1}'`)
+        $right.setAttribute('onclick', `location.href='${frontend}list/?page=${page+1}'`)
     } else {
         $right.setAttribute('onclick', "alert('다음 페이지가 없습니다.');")
     }
@@ -49,7 +49,7 @@ if (token){
         $none.setAttribute('style', 'display:none;');
 
         for (let i = 0; i < res.count; i++) {
-            const url = `${frontend}detail.html?id=${res.results[i].id}`;
+            const url = `${frontend}detail/?id=${res.results[i].id}`;
     
             const $tr = document.createElement('tr');
             $tr.setAttribute('class', 'click-tr');
@@ -97,7 +97,7 @@ if (token){
         if(!response.ok) {
             const errorData = await response.json();
             alert(errorData.detail);
-            window.location.replace(`${frontend}list.html`);
+            window.location.replace(`${frontend}list/`);
         }
 
         alert('전부 삭제되었습니다.');
@@ -106,5 +106,5 @@ if (token){
 } else {
     // 토큰이 없을 시 로그인창으로 넘어가고 성공 시 다시 돌아옴
     alert("로그인을 해주세요.")
-    window.location.replace(`${frontend}login.html?next=list.html`);
+    window.location.replace(`${frontend}login/?next=list/`);
 }

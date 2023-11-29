@@ -22,7 +22,7 @@ if (token){
         if(!editResponse.ok) {
             const errorData = await editResponse.json();
             alert(errorData.detail + ' 수정이 불가능합니다.');
-            window.location.replace(`${frontend}list.html`);
+            window.location.replace(`${frontend}list/`);
         }
 
         // 입력 항목에 기존 정보들을 채워줌
@@ -82,10 +82,10 @@ if (token){
         
         // 성공 시 상세보기 창으로 넘어감
         const res = await response.json();
-        window.location.replace(`${frontend}detail.html?id=${res.id}`);
+        window.location.replace(`${frontend}detail/?id=${res.id}`);
     });
 } else {
     // 토큰이 없을 시 로그인창으로 넘어가고 성공 시 다시 돌아옴
     alert("로그인을 해주세요.");
-    window.location.replace(`${frontend}login.html?next=recipe.html`);
+    window.location.replace(`${frontend}login/?next=recipe/`);
 }

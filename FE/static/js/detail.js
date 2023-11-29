@@ -21,7 +21,7 @@ if (token){
     if(!response.ok) {
         const errorData = await response.json();
         alert(errorData.detail);
-        window.location.replace(frontend + 'list.html');
+        window.location.replace(`${frontend}list/`);
     }
     const res = await response.json();
 
@@ -43,7 +43,7 @@ if (token){
 
     // 수정하기: id와 함께 입력받는 창으로 넘어감
     $edit.addEventListener('click', async function(e){
-        window.location.replace(`${frontend}recipe.html?id=${id}`);
+        window.location.replace(`${frontend}recipe/?id=${id}`);
     });
     // 삭제하기: DELETE요청으로 삭제함
     $del.addEventListener('click', async function(e){
@@ -58,11 +58,11 @@ if (token){
 
         if(response.ok) {
             alert('삭제되었습니다.');
-            window.location.replace(frontend + 'list.html');
+            window.location.replace(`${frontend}list/`);
         }
     });
 } else {
     // 토큰이 없을 시 로그인창으로 넘어가고 성공 시 다시 돌아옴
     alert("로그인을 해주세요."); 
-    window.location.replace(`${frontend}login.html?next=detail.html?id=${id}`);
+    window.location.replace(`${frontend}login/?next=detail/?id=${id}`);
 }

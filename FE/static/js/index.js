@@ -11,15 +11,15 @@ if (token){
     // 로그인 O -> 메인에 추천받기/불러오기 버튼
     await showLogin();
     $btn1.innerHTML = '추천받기'; 
-    $btn1.setAttribute('onclick', `location.href='${frontend}recipe.html'`);
+    $btn1.setAttribute('onclick', `location.href='${frontend}recipe/'`);
     $btn2.innerHTML = '불러오기';
-    $btn2.setAttribute('onclick', `location.href='${frontend}list.html'`);
+    $btn2.setAttribute('onclick', `location.href='${frontend}list/'`);
 } else {
     // 로그인 X -> 메인에 로그인/회원가입 버튼, 헤더 우측(추천받기/불러오기/로그아웃) 안 보이게함
     $btn1.innerHTML = '로그인';
-    $btn1.setAttribute('onclick', `location.href='${frontend}login.html'`);
+    $btn1.setAttribute('onclick', `location.href='${frontend}login/'`);
     $btn2.innerHTML = '회원가입';
-    $btn2.setAttribute('onclick', `location.href='${frontend}join.html'`);
+    $btn2.setAttribute('onclick', `location.href='${frontend}join/'`);
     $message.innerHTML = '로그인을 해야 서비스 이용이 가능합니다!';
 
     const $headerAtag = document.querySelectorAll('header h1~a');
