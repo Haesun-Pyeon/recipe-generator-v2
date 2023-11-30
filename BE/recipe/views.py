@@ -160,7 +160,7 @@ class RecipeViewSet(ModelViewSet):
         if '\n\n' in recipe:
             recipe = recipe.split('\n\n')[0]
         recipe = re.sub("\n", '', recipe)
-        recipe = re.sub('\d+. ', '</li><li>', recipe)[5:] + '</li>'
+        recipe = re.sub('(\d+\. )', '</li><li>', recipe)[5:] + '</li>'
 
         return title.strip(), ingredient.strip(), recipe.strip()
 

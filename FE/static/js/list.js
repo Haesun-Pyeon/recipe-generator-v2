@@ -68,7 +68,7 @@ if (token){
     
             const date = new Date(res.results[i].created_at);
             const $date = document.createElement('td');
-            $date.innerText = `${date.getMonth()}/${date.getDate()}`;
+            $date.innerText = `${date.getMonth()+1}/${date.getDate()}`;
     
             $tbody.appendChild($tr);
             $tr.appendChild($order);
