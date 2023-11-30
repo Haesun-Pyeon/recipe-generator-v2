@@ -169,10 +169,11 @@
   >[Swagger로 API 테스트하기](http://43.202.206.42/api/schema/swagger-ui) <br>
   > (레시피 관련 기능들은 오른쪽 상단 Authorize 버튼으로 토큰 값을 넣어야 작동합니다.)
 
-  ||||
-  | :---: | :---: | :---: |
-  | <img src='./readme_img/swagger/1.JPG'><br>GET /recipe/ | <img src='./readme_img/swagger/2.JPG'><br>POST /recipe/ | <img src='./readme_img/swagger/3.JPG'><br>GET /recipe/*id*/ |
-  | <img src='./readme_img/swagger/4.JPG'><br>PATCH /recipe/*id*/ | <img src='./readme_img/swagger/5.JPG'><br>DELETE /recipe/*id*/ | <img src='./readme_img/swagger/6.JPG'><br>DELETE /recipe/all/ |
+  |||
+  | :---: | :---: |
+  | <img src='./readme_img/swagger/1.JPG'><br>GET /recipe/ | <img src='./readme_img/swagger/2.JPG'><br>POST /recipe/ |
+  | <img src='./readme_img/swagger/3.JPG'><br>GET /recipe/*id*/ | <img src='./readme_img/swagger/4.JPG'><br>PATCH /recipe/*id*/ |
+  | <img src='./readme_img/swagger/5.JPG'><br>DELETE /recipe/*id*/ | <img src='./readme_img/swagger/6.JPG'><br>DELETE /recipe/all/ |
 
 - **Front-End**
   | URL | 페이지 |
@@ -197,7 +198,7 @@
 ## 4. 요구사항 분석 및 구현 기능 설명, 플로우차트
 
 ### 4-1. 기본 요구사항
-  - DRF를 이용하여 구현
+  - Django REST framework를 이용하여 구현
   - chatGPT로 요청을 보내주는 API를 Django 내에 구현
   - 클래스형 뷰로 구현 (ViewSet 활용)
   - 유저 관리 기능 구현
@@ -334,12 +335,6 @@
   1. 유저의 사용량을 체크하는 부분을 구현하다보니, chatGPT로의 요청 전에 사용량 체크를 하고, 요청 완료 후 사용량을 +1하여 chatGPT요청의 앞뒤에서 실행되므로 데코레이터로 만드는게 좋겠다고 생각이 들었습니다.
   2. `RecipeViewSet` 클래스 내부에서 정의하고 사용하다보니, `self` 인자가 필요하여 `check_usage`의 인자로 `self`를 넣었지만 안되었습니다.
   3. 하지만 이 `check_usage` 함수는 `func`의 앞뒤로 감싸주는 `wrapper` 함수만을 반환할 뿐이므로 `wrapper` 함수에 `self` 인자를 주어 해결하였습니다.
-
-- 폼 제출 시 새로고침 문제
-  1. 로그인, 회원가입, 레시피 입력 폼에서 서버로 요청을 보낸 후 완료되면 다음 페이지로 넘어가게끔 했는데 넘어가지 않고 새로고침만 되었습니다.
-  2. 코드를 고쳐보면서 해결을 시도해보았지만 잘 안 됐습니다.
-  3. 알고 보니, 로컬에서 Front-End 서버를 VSCode의 Live Server로 띄우다보니 여기서 자동 렌더링을 해주는 기능이 켜져있어서 자동 새로고침이 됐던 것이었습니다.
-  4. 설정에서 끄니 바로 해결이 되어 허무했지만 다음에도 헤메지 않게 기억해야겠다는 생각이 들었습니다.
 
 - 배포 문제
   1. 배포를 할 때, 처음에는 Amazon Lightsail의 Ubuntu 내에서 Back-End와 Front-End를 같이 배포하려고 했습니다. 보통 유저들이 Back-End 서버에는 직접적으로 접근하지 않으므로 Front-End의 기본주소가 `/` 가 되게 시도를 했습니다.
